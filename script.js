@@ -1,52 +1,135 @@
-console.log ("hello world");
+console.log ("Let's Play a Game");
 
 // CREATE A FUNCTION CALLED getComputerChoice that will randomly return either rock, paper or scissors.
 
 function getComputerChoice (){
-    let computerSelection = "";
-   
-    let randomNumber = Math.floor (Math.random()*10)
-   
-    if (randomNumber <= 3){
-   
-        computerSelection = "Rock";
-   
-    } else if (randomNumber >3 && randomNumber <= 6){
-
-        computerSelection = "Paper";
-
-    } else {
-
-        computerSelection = "Scissors";
-    }
+    let ArrayOfRockPaperScissors = ['Rock','Paper','Scissors'];
+    let randomString = Math.floor (Math.random()*ArrayOfRockPaperScissors.length);
     
-    return console.log (computerSelection, randomNumber);
+    return ArrayOfRockPaperScissors[randomString];
 }
 
-getComputerChoice();
 
 //CREATE A FUNCTION CALLED playerSelection THAT WILL CHOICE RETURN EITHER ROCK, PAPER, SCISSORS.
 
-function playerSelection (){
-    let playerAnswer = prompt ("Please, choice between: Rock, Paper, Scissors ", "Scissors" );
-    switch (playerAnswer) {
-        case playerAnswer = "Rock":
-            console.log ("You choose the rock");
-            break;
-        case playerAnswer = "Scissors":
-            console.log ("You choose Scissors");
-            break;
+let buttonPressing = '';
+let playerAnswer = document.querySelectorAll("button");
 
-        case playerAnswer = "Paper":
-            console.log ("You choose Paper");
-            break;
-    }
+playerAnswer.forEach(buttons => {
+
+
+    buttons.addEventListener('click', (e)=>{
+        let computerChoice = getComputerChoice();
+
+        buttonPressing = buttons.id
+        let valueOfPlayerSelection = playerSelection(buttonPressing);
+        winnerSelection(valueOfPlayerSelection, computerChoice);
+        createScore(scorePlayer, scoreComputer);
+        finalWinner (scorePlayer, scoreComputer);
+    })
     
-    return console.log (playerAnswer);
+});
+
+function playerSelection(buttonPressing){
+    let choicePlayer = "";
+
+    switch(buttonPressing){
+        case 'rock':
+            choicePlayer = 'Rock';
+            break;
+        case 'paper':
+            choicePlayer = 'Paper';
+            break;
+        case 'scissors':
+            choicePlayer = 'Scissors';
+            break;
+        
+        }
+    let playerChoice = choicePlayer.toLocaleLowerCase();
+    return playerChoice;
 }
 
-playerSelection();
-
+let scorePlayer = +("");
+let scoreComputer = +("");
 
 // CREATE A FUNCTION THAT TAKE TWO PARAMETERS playerSelection and getComputerChoice AND RETURN A STRING THAT DECLARES WIN OR LOSE.
-// CREATE A FUNCTION CALLED game ALLOW US TO PLAY A 5 ROUND GAMES.   
+function winnerSelection (valueOfPlayerSelection, computerChoice ){
+    
+    
+    let lowerComputer = computerChoice.toLowerCase();
+    console.log (lowerComputer);
+    console.log (`the player choice: ${valueOfPlayerSelection}`);
+    
+    
+    if (valueOfPlayerSelection === "scissors" && lowerComputer === "rock"){
+        
+
+        console.log (`You Lose: rock beats scissors`);
+        scoreComputer+=1;
+
+        console.log (`Other point to computer, the total score is${scoreComputer}`);
+
+
+    }else if (valueOfPlayerSelection === "paper" && lowerComputer === "scissors"){
+        scoreComputer+=1;
+        console.log (`You Lose: scissors beats paper`);
+        console.log (`Other point to computer, the total score is${scoreComputer}`);
+
+            
+    }else if (valueOfPlayerSelection === "rock" && lowerComputer === "paper") {
+        console.log (`You Lose: paper beats rock`);
+        scoreComputer+=1;
+    
+        console.log (`Other point to computer, the total score is: ${scoreComputer}`);
+
+    }else if (valueOfPlayerSelection === lowerComputer){
+        console.log ("WE HAVE A TIE");  
+    
+    }else {
+        console.log ("You win bro");
+        scorePlayer+=1;
+        console.log(`Other point to PLayer, the total score is: ${scorePlayer}`);
+        }
+        
+    
+    
+    return;
+}
+
+let finalWinner = (scorePlayer, scoreComputer) => {
+
+    if(scorePlayer === 5){
+        alert('THE WINNER IS: THE PLAYER');
+
+    }else if (scoreComputer === 5){
+        alert('THE WINNER IS: THE COMPUTER');
+
+    }
+}
+
+let createScore = (scorePlayer, scoreComputer)=>{
+    
+    divSelector = document.querySelector('div');
+    while (divSelector.firstChild){
+        divSelector.removeChild(divSelector.firstChild);
+    }
+
+    let textScoreComputer = document.createTextNode('Computer Score: ' + scoreComputer);
+    let textScorePlayer = document.createTextNode('Player Score: ' + scorePlayer)
+    divSelector.append(textScorePlayer, textScoreComputer);
+}
+
+
+
+//winnerSelection (playerChoice, computerChoice);
+
+
+
+
+//winnerSelection (playerChoice, computerChoice);
+
+
+//CREATE A FUNCTION CALLED game ALLOW US TO PLAY A 5 ROUND GAMES.   
+
+// create a loop to repeat de game for 5 times 
+    
